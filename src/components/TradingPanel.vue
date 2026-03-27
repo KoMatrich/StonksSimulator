@@ -126,7 +126,7 @@ function doSell() { if (qty.value > 0) store.sell(props.symbol, qty.value, liveP
 </script>
 
 <style scoped>
-.trading-panel { display: flex; flex-direction: column; gap: 12px; }
+.trading-panel { display: flex; flex-direction: column; gap: 12px }
 
 .tp-header {
   display: flex;

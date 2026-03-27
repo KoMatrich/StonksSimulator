@@ -85,6 +85,7 @@ const animDuration = computed(() => `${STOCKS.length * 6}s`)
   border-right: none;
   border-left: 1px solid var(--border);
   height: 38px;
+  width: 180px;
 }
 
 .ticker-item:hover { background: var(--surface); }

@@ -3,8 +3,8 @@
     <!-- ── Ticker Bar ──────────────────────────────────────────────────── -->
     <header class="app-header">
       <div class="brand">
-        <span class="brand-icon">📈</span>
-        <span class="brand-name">STONKS<span class="brand-accent">PRO</span></span>
+        <span class="brand-icon"></span>
+        <span class="brand-name">Tour De <span class="brand-accent">Stonks</span></span>
       </div>
       <TickerBar />
       <div class="brand-time mono">{{ clock }}</div>
@@ -97,7 +97,7 @@ onUnmounted(() => clearInterval(clockId))
 }
 .brand-icon { font-size: 16px; }
 .brand-name { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; }
-.brand-accent { color: var(--red); }
+.brand-accent { color: #EF8A17; }
 
 .brand-time {
   font-size: 12px; font-weight: 600; color: var(--text-muted);
@@ -108,7 +108,7 @@ onUnmounted(() => clearInterval(clockId))
 /* ── Body ─────────────────────────────────────────────────────────────── */
 .app-body {
   display: grid;
-  grid-template-columns: 200px 1fr 220px;
+  grid-template-columns: 250px 1fr 250px;
   flex: 1;
   overflow: hidden;
 }
