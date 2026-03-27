@@ -3,8 +3,8 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted, computed } from 'vue'
-import { createChart } from 'lightweight-charts'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { createChart, CandlestickSeries, HistogramSeries } from 'lightweight-charts'
 import { useSymbol } from '../services/stockSimulator'
 
 const props = defineProps({
@@ -12,11 +12,11 @@ const props = defineProps({
 })
 
 const containerEl = ref(null)
-let chart = null
-let candleSeries = null
-let volumeSeries = null
+let chart         = null
+let candleSeries  = null
+let volumeSeries  = null
 
-// ── Chart theme ──────────────────────────────────────────────────────────────
+// ─── Chart theme ──────────────────────────────────────────────────────────────
 const CHART_OPTIONS = {
   layout: {
     background: { color: '#111111' },
@@ -24,42 +24,38 @@ const CHART_OPTIONS = {
     fontFamily: "'Dosis', sans-serif",
   },
   grid: {
-    vertLines:  { color: '#1e1e1e' },
-    horzLines:  { color: '#1e1e1e' },
+    vertLines: { color: '#1e1e1e' },
+    horzLines: { color: '#1e1e1e' },
   },
   crosshair: {
-    mode: 0,
-    vertLine:  { color: '#444', style: 2, width: 1 },
-    horzLine:  { color: '#444', style: 2, width: 1 },
+    vertLine: { color: '#444', style: 2, width: 1 },
+    horzLine: { color: '#444', style: 2, width: 1 },
   },
   rightPriceScale: {
-    borderColor: '#2a2a2a',
+    borderColor:  '#2a2a2a',
     scaleMargins: { top: 0.05, bottom: 0.25 },
   },
   timeScale: {
-    borderColor:     '#2a2a2a',
-    timeVisible:     true,
-    secondsVisible:  false,
+    borderColor:    '#2a2a2a',
+    timeVisible:    true,
+    secondsVisible: false,
   },
-  watermark: { visible: false },
 }
 
-const CANDLE_COLORS = {
-  upColor:          '#0070BB',
-  downColor:        '#E31837',
-  borderUpColor:    '#0070BB',
-  borderDownColor:  '#E31837',
-  wickUpColor:      '#0070BB',
-  wickDownColor:    '#E31837',
+const CANDLE_OPTS = {
+  upColor:         '#0070BB',
+  downColor:       '#E31837',
+  borderUpColor:   '#0070BB',
+  borderDownColor: '#E31837',
+  wickUpColor:     '#0070BB',
+  wickDownColor:   '#E31837',
 }
 
-const VOLUME_COLORS = {
-  upColor:   'rgba(0, 112, 187, 0.35)',
-  downColor: 'rgba(227, 24, 55, 0.35)',
-}
+const UP_VOL   = 'rgba(0, 112, 187, 0.35)'
+const DOWN_VOL = 'rgba(227, 24, 55, 0.35)'
 
-// ── Resize observer ───────────────────────────────────────────────────────────
-let resizeObserver = null
+// ─── Resize observer ───────────────────────────────────────────────────────────
+let ro = null
 
 function initChart() {
   if (!containerEl.value) return
@@ -68,17 +64,21 @@ function initChart() {
     ...CHART_OPTIONS,
     width:  containerEl.value.clientWidth,
     height: containerEl.value.clientHeight,
+    autoSize: true,
   })
 
-  candleSeries = chart.addCandlestickSeries(CANDLE_COLORS)
+  // v5 API: chart.addSeries(SeriesType, options)
+  candleSeries = chart.addSeries(CandlestickSeries, CANDLE_OPTS)
 
-  volumeSeries = chart.addHistogramSeries({
-    priceFormat:    { type: 'volume' },
-    priceScaleId:   'vol',
-    scaleMargins:   { top: 0.82, bottom: 0 },
+  volumeSeries = chart.addSeries(HistogramSeries, {
+    priceFormat:  { type: 'volume' },
+    priceScaleId: 'vol',
+  })
+  volumeSeries.priceScale().applyOptions({
+    scaleMargins: { top: 0.82, bottom: 0 },
   })
 
-  resizeObserver = new ResizeObserver(() => {
+  ro = new ResizeObserver(() => {
     if (chart && containerEl.value) {
       chart.applyOptions({
         width:  containerEl.value.clientWidth,
@@ -86,7 +86,7 @@ function initChart() {
       })
     }
   })
-  resizeObserver.observe(containerEl.value)
+  ro.observe(containerEl.value)
 
   loadSymbol(props.symbol)
 }
@@ -94,8 +94,14 @@ function initChart() {
 function loadSymbol(symbol) {
   const { candles, live } = useSymbol(symbol)
 
-  // Set historical candles
-  const all = [...candles.value, live.value].filter(Boolean)
+  const completed = candles.value
+  const all = live.value
+    ? [...completed, live.value]
+    : [...completed]
+
+  // Sort by time to be safe
+  all.sort((a, b) => a.time - b.time)
+
   candleSeries.setData(all.map(c => ({
     time:  c.time,
     open:  c.open,
@@ -107,33 +113,32 @@ function loadSymbol(symbol) {
   volumeSeries.setData(all.map(c => ({
     time:  c.time,
     value: c.volume,
-    color: c.close >= c.open ? VOLUME_COLORS.upColor : VOLUME_COLORS.downColor,
+    color: c.close >= c.open ? UP_VOL : DOWN_VOL,
   })))
 
   chart.timeScale().fitContent()
 }
 
-// Watch for live candle and price updates
+// ─── Watch live candle ────────────────────────────────────────────────────────
 let unwatch = null
 
 function watchSymbol(symbol) {
-  if (unwatch) unwatch()
+  if (unwatch) { unwatch(); unwatch = null }
   const { live } = useSymbol(symbol)
 
   unwatch = watch(live, (lv) => {
     if (!lv || !candleSeries) return
-    const candle = {
+    candleSeries.update({
       time:  lv.time,
       open:  lv.open,
       high:  lv.high,
       low:   lv.low,
       close: lv.close,
-    }
-    candleSeries.update(candle)
+    })
     volumeSeries.update({
       time:  lv.time,
       value: lv.volume,
-      color: lv.close >= lv.open ? VOLUME_COLORS.upColor : VOLUME_COLORS.downColor,
+      color: lv.close >= lv.open ? UP_VOL : DOWN_VOL,
     })
   }, { deep: true })
 }
@@ -151,7 +156,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   if (unwatch) unwatch()
-  if (resizeObserver) resizeObserver.disconnect()
+  if (ro) ro.disconnect()
   if (chart) chart.remove()
 })
 </script>
@@ -160,7 +165,7 @@ onUnmounted(() => {
 .chart-container {
   width: 100%;
   height: 100%;
-  border-radius: var(--radius);
   overflow: hidden;
+  border-radius: var(--radius);
 }
 </style>

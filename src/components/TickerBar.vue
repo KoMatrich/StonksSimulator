@@ -10,7 +10,7 @@
         <span class="ticker-sym">{{ s.symbol }}</span>
         <span class="ticker-price mono">${{ fmt(s.price) }}</span>
         <span class="ticker-change mono">
-          {{ s.change >= 0 ? '+' : '' }}{{ s.changePct.toFixed(2) }}%
+          <span class="tsign">{{ s.change >= 0 ? '+' : '−' }}</span>{{ Math.abs(s.changePct).toFixed(2) }}%
         </span>
       </div>
     </div>
@@ -27,9 +27,7 @@ const stocks = STOCKS.map(s => {
 })
 
 function fmt(v) {
-  if (v >= 1000) return v.toFixed(2)
-  if (v >= 100)  return v.toFixed(2)
-  return v.toFixed(2)
+  return v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
 const items = computed(() =>
@@ -84,11 +82,14 @@ const animDuration = computed(() => `${STOCKS.length * 6}s`)
   align-items: center;
   gap: 8px;
   padding: 0 28px;
-  border-right: 1px solid var(--border);
+  border-right: none;
+  border-left: 1px solid var(--border);
   height: 38px;
 }
 
 .ticker-item:hover { background: var(--surface); }
+
+.tsign { display: inline-block; width: 10px; text-align: center; }
 
 .ticker-sym {
   font-weight: 800;

@@ -1,11 +1,16 @@
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 
 export const STOCKS = [
-  { symbol: 'NVDA', name: 'NVIDIA Corp.',    price: 875.40, volatility: 0.018, trend: 0.0002 },
-  { symbol: 'TSLA', name: 'Tesla Inc.',      price: 248.70, volatility: 0.025, trend: -0.0001 },
-  { symbol: 'AAPL', name: 'Apple Inc.',      price: 211.50, volatility: 0.010, trend: 0.0001 },
-  { symbol: 'BTC',  name: 'Bitcoin / USD',  price: 67420.0, volatility: 0.030, trend: 0.0003 },
-  { symbol: 'SPX',  name: 'S&P 500 Index',  price: 5248.80, volatility: 0.008, trend: 0.0001 },
+  { symbol: 'NVDA',       name: 'NVIDIA Corp.',           price:  875.40, volatility: 0.018, trend:  0.0002 },
+  { symbol: 'TSLA',       name: 'Tesla Inc.',             price:  248.70, volatility: 0.025, trend: -0.0001 },
+  { symbol: 'AAPL',       name: 'Apple Inc.',             price:  211.50, volatility: 0.010, trend:  0.0001 },
+  { symbol: 'BTC',        name: 'Bitcoin / USD',          price: 67420.0, volatility: 0.030, trend:  0.0003 },
+  { symbol: 'SPX',        name: 'S&P 500 Index',          price: 5248.80, volatility: 0.008, trend:  0.0001 },
+  { symbol: 'TDA',        name: 'Think different Academy',price:   42.00, volatility: 0.022, trend:  0.0003 },
+  { symbol: 'PSKV',       name: 'Piškvorky a.s.',         price:   18.50, volatility: 0.028, trend:  0.0002 },
+  { symbol: 'SCG',        name: 'SCG Industries',         price:  134.80, volatility: 0.015, trend:  0.0001 },
+  { symbol: 'PRZT',       name: 'Prezentiada s.r.o.',     price:   67.30, volatility: 0.020, trend:  0.0002 },
+  { symbol: 'CFT',        name: 'CFT Corp. (Bankrupt?)',  price:    8.40, volatility: 0.045, trend: -0.0025 },
 ]
 
 // ─── Random helpers ──────────────────────────────────────────────────────────

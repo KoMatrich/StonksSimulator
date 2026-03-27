@@ -1,6 +1,6 @@
 <template>
   <div class="app-shell">
-    <!-- ── Ticker Bar ────────────────────────────────────────────────────── -->
+    <!-- ── Ticker Bar ──────────────────────────────────────────────────── -->
     <header class="app-header">
       <div class="brand">
         <span class="brand-icon">📈</span>
@@ -10,16 +10,18 @@
       <div class="brand-time mono">{{ clock }}</div>
     </header>
 
-    <!-- ── Main Layout ───────────────────────────────────────────────────── -->
+    <!-- ── Main Layout ─────────────────────────────────────────────────── -->
     <div class="app-body">
 
-      <!-- Left Sidebar: Stock Selector -->
+      <!-- Left: Stock Selector + Trading Panel -->
       <aside class="sidebar-left">
         <div class="section-label">MARKETS</div>
         <StockSelector v-model="selectedSymbol" />
+        <div class="sidebar-spacer"></div>
+        <TradingPanel :symbol="selectedSymbol" />
       </aside>
 
-      <!-- Center: Chart + Portfolio -->
+      <!-- Center: Chart + Portfolio Table -->
       <main class="main-area">
         <div class="chart-area card">
           <CandlestickChart :symbol="selectedSymbol" :key="selectedSymbol" />
@@ -27,45 +29,43 @@
         <Portfolio />
       </main>
 
-      <!-- Right Sidebar: Trading Panel -->
+      <!-- Right: Portfolio Sidebar (positions + %) -->
       <aside class="sidebar-right">
-        <TradingPanel :symbol="selectedSymbol" />
+        <PortfolioSidebar />
       </aside>
     </div>
 
-    <!-- ── Toast Notifications ───────────────────────────────────────────── -->
+    <!-- ── Toasts ──────────────────────────────────────────────────────── -->
     <div class="toast">
       <div
         v-for="t in store.toasts"
         :key="t.id"
         class="toast-item"
         :class="[t.type, t.exiting ? 'exit' : '']"
-      >
-        {{ t.msg }}
-      </div>
+      >{{ t.msg }}</div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import TickerBar       from './components/TickerBar.vue'
-import StockSelector   from './components/StockSelector.vue'
+import TickerBar        from './components/TickerBar.vue'
+import StockSelector    from './components/StockSelector.vue'
 import CandlestickChart from './components/CandlestickChart.vue'
-import TradingPanel    from './components/TradingPanel.vue'
-import Portfolio       from './components/Portfolio.vue'
+import TradingPanel     from './components/TradingPanel.vue'
+import Portfolio        from './components/Portfolio.vue'
+import PortfolioSidebar from './components/PortfolioSidebar.vue'
 import { useTradingStore } from './stores/tradingStore'
 
 const store          = useTradingStore()
 const selectedSymbol = ref('NVDA')
 
-// Live clock
 const clock = ref('')
+let clockId
 function updateClock() {
   clock.value = new Date().toLocaleTimeString('en-US', { hour12: false })
 }
-let clockId
-onMounted(()  => { updateClock(); clockId = setInterval(updateClock, 1000) })
+onMounted(()   => { updateClock(); clockId = setInterval(updateClock, 1000) })
 onUnmounted(() => clearInterval(clockId))
 </script>
 
@@ -78,7 +78,7 @@ onUnmounted(() => clearInterval(clockId))
   background: var(--bg);
 }
 
-/* ── Header ─────────────────────────────────────────────────────────────── */
+/* ── Header ──────────────────────────────────────────────────────────── */
 .app-header {
   display: grid;
   grid-template-columns: 160px 1fr 100px;
@@ -90,47 +90,31 @@ onUnmounted(() => clearInterval(clockId))
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  display: flex; align-items: center; gap: 6px;
   padding: 0 16px;
   border-right: 1px solid var(--border);
   height: 100%;
 }
-
 .brand-icon { font-size: 16px; }
-.brand-name {
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: var(--text);
-}
+.brand-name { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; }
 .brand-accent { color: var(--red); }
 
 .brand-time {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-  padding: 0 16px;
-  border-left: 1px solid var(--border);
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 12px; font-weight: 600; color: var(--text-muted);
+  padding: 0 16px; border-left: 1px solid var(--border);
+  height: 100%; display: flex; align-items: center; justify-content: center;
 }
 
-/* ── Body ────────────────────────────────────────────────────────────────── */
+/* ── Body ─────────────────────────────────────────────────────────────── */
 .app-body {
   display: grid;
-  grid-template-columns: 180px 1fr 240px;
+  grid-template-columns: 200px 1fr 220px;
   flex: 1;
   overflow: hidden;
-  gap: 0;
 }
 
-/* ── Sidebars ─────────────────────────────────────────────────────────────── */
-.sidebar-left,
-.sidebar-right {
+/* ── Left Sidebar ─────────────────────────────────────────────────────── */
+.sidebar-left {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -139,17 +123,20 @@ onUnmounted(() => clearInterval(clockId))
   border-right: 1px solid var(--border);
 }
 
-.sidebar-right { border-right: none; border-left: 1px solid var(--border); }
-
 .section-label {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: var(--text-muted);
-  padding-bottom: 4px;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 1.5px; color: var(--text-muted);
 }
 
-/* ── Main ─────────────────────────────────────────────────────────────────── */
+.sidebar-spacer { flex: 1; min-height: 12px; }
+
+/* ── Right Sidebar ─────────────────────────────────────────────────────── */
+.sidebar-right {
+  border-left: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* ── Main Area ───────────────────────────────────────────────────────── */
 .main-area {
   display: flex;
   flex-direction: column;
