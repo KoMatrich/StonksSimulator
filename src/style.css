@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@300;400;500;600;700;800&display=swap');
+
+/* ─── TdA Brand Design Tokens ───────────────────────────────────────────── */
+:root {
+  --red:        #E31837;
+  --blue:       #0070BB;
+  --bg:         #080808;
+  --panel:      #111111;
+  --surface:    #1A1A1A;
+  --border:     #2a2a2a;
+  --text:       #F6F6F6;
+  --text-muted: #888888;
+  --green:      #00C896;
+  --red-muted:  #AB2E58;
+  --blue-dark:  #395A9A;
+  --purple:     #724479;
+
+  --radius:     10px;
+  --radius-sm:  6px;
+  --font:       'Dosis', system-ui, sans-serif;
+  --transition: 0.18s ease;
+}
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #app {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ─── Glass card ─────────────────────────────────────────────────────────── */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+/* ─── Buttons ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
+  user-select: none;
+}
+
+.btn:active { transform: scale(0.96); }
+
+.btn-buy {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 0 18px rgba(0, 112, 187, 0.35);
+}
+.btn-buy:hover { background: #0085dc; box-shadow: 0 0 28px rgba(0, 112, 187, 0.55); }
+.btn-buy:disabled { opacity: 0.38; cursor: not-allowed; box-shadow: none; }
+
+.btn-sell {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 0 18px rgba(227, 24, 55, 0.35);
+}
+.btn-sell:hover { background: #ff1f42; box-shadow: 0 0 28px rgba(227, 24, 55, 0.55); }
+.btn-sell:disabled { opacity: 0.38; cursor: not-allowed; box-shadow: none; }
+
+.btn-ghost {
+  background: var(--surface);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { border-color: var(--blue); color: var(--text); }
+
+/* ─── Input ──────────────────────────────────────────────────────────────── */
+input[type="number"] {
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  padding: 8px 12px;
+  outline: none;
+  width: 100%;
+  transition: border-color var(--transition);
+}
+input[type="number"]:focus { border-color: var(--blue); }
+input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
+
+/* ─── Helpers ─────────────────────────────────────────────────────────────── */
+.up   { color: var(--blue); }
+.down { color: var(--red); }
+.muted { color: var(--text-muted); }
+.mono { font-variant-numeric: tabular-nums; }
+
+/* ─── Flash animation for price updates ─────────────────────────────────── */
+@keyframes flashUp   { 0%,100%{color:inherit} 40%{color:var(--blue)} }
+@keyframes flashDown { 0%,100%{color:inherit} 40%{color:var(--red)} }
+.flash-up   { animation: flashUp   0.5s ease; }
+.flash-down { animation: flashDown 0.5s ease; }
+
+/* ─── Toast ──────────────────────────────────────────────────────────────── */
+@keyframes slideIn  { from{transform:translateX(120%);opacity:0} to{transform:translateX(0);opacity:1} }
+@keyframes fadeOut  { from{opacity:1} to{opacity:0;transform:translateY(-8px)} }
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.toast-item {
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 13px;
+  animation: slideIn 0.3s ease forwards;
+  max-width: 280px;
+}
+.toast-item.buy  { background: var(--blue); color: #fff; }
+.toast-item.sell { background: var(--red);  color: #fff; }
+.toast-item.error{ background: var(--surface); border:1px solid var(--red); color: var(--red); }
+.toast-item.exit { animation: fadeOut 0.4s ease forwards; }
