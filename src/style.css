@@ -118,7 +118,7 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
 .up   { color: var(--blue); }
 .down { color: var(--red); }
 .muted { color: var(--text-muted); }
-.mono { font-variant-numeric: tabular-nums; }
+.mono { font-variant-numeric: tabular-nums; font-feature-settings: 'tnum' 1; }
 
 /* ─── Flash animation for price updates ─────────────────────────────────── */
 @keyframes flashUp   { 0%,100%{color:inherit} 40%{color:var(--blue)} }

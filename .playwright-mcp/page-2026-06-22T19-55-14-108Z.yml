@@ -1,0 +1,282 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]: Tour De Stonks
+    - generic [ref=e8]:
+      - generic [ref=e9]:
+        - generic [ref=e10]: NVDA
+        - generic [ref=e11]: $1,267.01
+        - generic [ref=e12]:
+          - generic [ref=e13]: ▲
+          - text: 72.72%
+      - generic [ref=e14]:
+        - generic [ref=e15]: TSLA
+        - generic [ref=e16]: $145.19
+        - generic [ref=e17]:
+          - generic [ref=e18]: ▼
+          - text: 31.69%
+      - generic [ref=e19]:
+        - generic [ref=e20]: AAPL
+        - generic [ref=e21]: $136.02
+        - generic [ref=e22]:
+          - generic [ref=e23]: ▼
+          - text: 22.10%
+      - generic [ref=e24]:
+        - generic [ref=e25]: BTC
+        - generic [ref=e26]: $83,120.05
+        - generic [ref=e27]:
+          - generic [ref=e28]: ▲
+          - text: 46.74%
+      - generic [ref=e29]:
+        - generic [ref=e30]: SPX
+        - generic [ref=e31]: $4,990.26
+        - generic [ref=e32]:
+          - generic [ref=e33]: ▲
+          - text: 14.17%
+      - generic [ref=e34]:
+        - generic [ref=e35]: TDA
+        - generic [ref=e36]: $22.85
+        - generic [ref=e37]:
+          - generic [ref=e38]: ▼
+          - text: 37.33%
+      - generic [ref=e39]:
+        - generic [ref=e40]: PSKV
+        - generic [ref=e41]: $18.95
+        - generic [ref=e42]:
+          - generic [ref=e43]: ▲
+          - text: 22.50%
+      - generic [ref=e44]:
+        - generic [ref=e45]: SCG
+        - generic [ref=e46]: $103.12
+        - generic [ref=e47]:
+          - generic [ref=e48]: ▼
+          - text: 6.74%
+      - generic [ref=e49]:
+        - generic [ref=e50]: PRZT
+        - generic [ref=e51]: $78.73
+        - generic [ref=e52]:
+          - generic [ref=e53]: ▲
+          - text: 36.14%
+      - generic [ref=e54]:
+        - generic [ref=e55]: CFT
+        - generic [ref=e56]: $2.19
+        - generic [ref=e57]:
+          - generic [ref=e58]: ▼
+          - text: 68.78%
+      - generic [ref=e59]:
+        - generic [ref=e60]: NVDA
+        - generic [ref=e61]: $1,267.01
+        - generic [ref=e62]:
+          - generic [ref=e63]: ▲
+          - text: 72.72%
+      - generic [ref=e64]:
+        - generic [ref=e65]: TSLA
+        - generic [ref=e66]: $145.19
+        - generic [ref=e67]:
+          - generic [ref=e68]: ▼
+          - text: 31.69%
+      - generic [ref=e69]:
+        - generic [ref=e70]: AAPL
+        - generic [ref=e71]: $136.02
+        - generic [ref=e72]:
+          - generic [ref=e73]: ▼
+          - text: 22.10%
+      - generic [ref=e74]:
+        - generic [ref=e75]: BTC
+        - generic [ref=e76]: $83,120.05
+        - generic [ref=e77]:
+          - generic [ref=e78]: ▲
+          - text: 46.74%
+      - generic [ref=e79]:
+        - generic [ref=e80]: SPX
+        - generic [ref=e81]: $4,990.26
+        - generic [ref=e82]:
+          - generic [ref=e83]: ▲
+          - text: 14.17%
+      - generic [ref=e84]:
+        - generic [ref=e85]: TDA
+        - generic [ref=e86]: $22.85
+        - generic [ref=e87]:
+          - generic [ref=e88]: ▼
+          - text: 37.33%
+      - generic [ref=e89]:
+        - generic [ref=e90]: PSKV
+        - generic [ref=e91]: $18.95
+        - generic [ref=e92]:
+          - generic [ref=e93]: ▲
+          - text: 22.50%
+      - generic [ref=e94]:
+        - generic [ref=e95]: SCG
+        - generic [ref=e96]: $103.12
+        - generic [ref=e97]:
+          - generic [ref=e98]: ▼
+          - text: 6.74%
+      - generic [ref=e99]:
+        - generic [ref=e100]: PRZT
+        - generic [ref=e101]: $78.73
+        - generic [ref=e102]:
+          - generic [ref=e103]: ▲
+          - text: 36.14%
+      - generic [ref=e104]:
+        - generic [ref=e105]: CFT
+        - generic [ref=e106]: $2.19
+        - generic [ref=e107]:
+          - generic [ref=e108]: ▼
+          - text: 68.78%
+    - generic [ref=e109]:
+      - generic [ref=e110]: PAPER TRADING
+      - generic [ref=e111]: ● OPEN
+      - generic [ref=e112]: 21:55:14
+  - generic [ref=e113]:
+    - complementary [ref=e114]:
+      - generic [ref=e115]: MARKETS
+      - generic [ref=e116]:
+        - button "NVDA $1267.01 +72.72%" [ref=e117] [cursor=pointer]:
+          - generic [ref=e118]:
+            - generic [ref=e119]: NVDA
+            - generic [ref=e120]: $1267.01
+            - generic [ref=e121]: +72.72%
+        - button "TSLA $145.19 -31.69%" [ref=e126] [cursor=pointer]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: TSLA
+            - generic [ref=e129]: $145.19
+            - generic [ref=e130]: "-31.69%"
+        - button "AAPL $136.02 -22.10%" [ref=e135] [cursor=pointer]:
+          - generic [ref=e136]:
+            - generic [ref=e137]: AAPL
+            - generic [ref=e138]: $136.02
+            - generic [ref=e139]: "-22.10%"
+        - button "BTC $83120.05 +46.74%" [ref=e144] [cursor=pointer]:
+          - generic [ref=e145]:
+            - generic [ref=e146]: BTC
+            - generic [ref=e147]: $83120.05
+            - generic [ref=e148]: +46.74%
+        - button "SPX $4990.26 +14.17%" [ref=e153] [cursor=pointer]:
+          - generic [ref=e154]:
+            - generic [ref=e155]: SPX
+            - generic [ref=e156]: $4990.26
+            - generic [ref=e157]: +14.17%
+        - button "TDA $22.85 -37.33%" [ref=e162] [cursor=pointer]:
+          - generic [ref=e163]:
+            - generic [ref=e164]: TDA
+            - generic [ref=e165]: $22.85
+            - generic [ref=e166]: "-37.33%"
+        - button "PSKV $18.95 +22.50%" [ref=e171] [cursor=pointer]:
+          - generic [ref=e172]:
+            - generic [ref=e173]: PSKV
+            - generic [ref=e174]: $18.95
+            - generic [ref=e175]: +22.50%
+        - button "SCG $103.12 -6.74%" [ref=e180] [cursor=pointer]:
+          - generic [ref=e181]:
+            - generic [ref=e182]: SCG
+            - generic [ref=e183]: $103.12
+            - generic [ref=e184]: "-6.74%"
+        - button "PRZT $78.73 +36.14%" [ref=e189] [cursor=pointer]:
+          - generic [ref=e190]:
+            - generic [ref=e191]: PRZT
+            - generic [ref=e192]: $78.73
+            - generic [ref=e193]: +36.14%
+        - button "CFT $2.19 -68.78%" [ref=e198] [cursor=pointer]:
+          - generic [ref=e199]:
+            - generic [ref=e200]: CFT
+            - generic [ref=e201]: $2.19
+            - generic [ref=e202]: "-68.78%"
+      - generic [ref=e208]:
+        - generic [ref=e209]:
+          - generic [ref=e210]:
+            - generic [ref=e211]: NVDA
+            - generic [ref=e212]: NVIDIA Corp.
+          - generic [ref=e213]:
+            - generic [ref=e214]: $1,267.01
+            - generic [ref=e215]:
+              - generic [ref=e216]: +
+              - text: $533.44 (
+              - generic [ref=e217]: +
+              - text: 72.72%)
+        - generic [ref=e218]:
+          - generic [ref=e219]:
+            - generic [ref=e220]: Bid
+            - generic [ref=e221]: $1,266.75
+          - generic [ref=e222]: ·
+          - generic [ref=e223]:
+            - generic [ref=e224]: Ask
+            - generic [ref=e225]: $1,267.26
+          - generic [ref=e226]: $0.51 spread
+        - generic [ref=e228]:
+          - generic [ref=e229]: PLACE ORDER
+          - generic [ref=e230]: MARKET
+        - generic [ref=e231]:
+          - generic [ref=e232]: Quantity
+          - spinbutton [ref=e233]: "1"
+        - generic [ref=e234]:
+          - generic [ref=e235]: Est. Total
+          - generic [ref=e236]: $1,267.01
+        - generic [ref=e237]:
+          - generic [ref=e238]: Commission
+          - generic [ref=e239]: $0.00
+        - generic [ref=e240]:
+          - button "▲ BUY" [ref=e241] [cursor=pointer]
+          - button "▼ SELL" [disabled] [ref=e242]
+        - generic [ref=e244]:
+          - generic [ref=e245]: Cash
+          - generic [ref=e246]: $10,000.00
+    - main [ref=e247]:
+      - generic [ref=e249]:
+        - generic [ref=e250]:
+          - generic [ref=e251]: NVDA
+          - generic [ref=e252]: 20s
+          - generic [ref=e253]: │
+          - generic [ref=e254]: O $1,267.01
+          - generic [ref=e255]: H $1,267.01
+          - generic [ref=e256]: L $1,267.01
+          - generic [ref=e257]: C $1,267.01
+          - generic [ref=e258]: Vol 0
+        - table [ref=e261]:
+          - row "Charting by TradingView" [ref=e262]:
+            - cell
+            - cell "Charting by TradingView" [ref=e263]:
+              - link "Charting by TradingView" [ref=e267] [cursor=pointer]:
+                - /url: https://www.tradingview.com/?utm_medium=lwc-link&utm_campaign=lwc-chart&utm_source=localhost/
+                - img [ref=e268]
+            - cell [ref=e272]
+          - row [ref=e276]:
+            - cell
+            - cell [ref=e277]
+            - cell [ref=e281]
+      - generic [ref=e284]:
+        - generic [ref=e285]:
+          - generic [ref=e286]: PORTFOLIO
+          - generic [ref=e287]:
+            - generic [ref=e288]: Total Value
+            - generic [ref=e289]: $10000.00
+            - generic [ref=e290]: +$0.00 (+0.00%)
+        - generic [ref=e291]:
+          - generic [ref=e292]: Cash
+          - generic [ref=e293]: $10000.00
+          - generic [ref=e294]: │
+          - generic [ref=e295]: Invested
+          - generic [ref=e296]: $0.00
+        - generic [ref=e297]: No open positions. Start trading!
+    - complementary [ref=e298]:
+      - generic [ref=e299]:
+        - generic [ref=e300]:
+          - generic [ref=e301]: PORTFOLIO
+          - generic [ref=e302]: $10,000.00
+          - generic [ref=e303]:
+            - generic [ref=e304]: +
+            - text: $0.00 (
+            - generic [ref=e305]: +
+            - text: 0.00%)
+        - generic [ref=e306]:
+          - generic [ref=e307]:
+            - generic [ref=e308]: Cash
+            - generic [ref=e309]: $10,000.00
+          - generic [ref=e310]:
+            - generic [ref=e311]: Invested
+            - generic [ref=e312]: $0.00
+          - generic [ref=e315]:
+            - generic [ref=e317]: Cash 100.00%
+            - generic [ref=e319]: Inv. 0.00%
+        - generic [ref=e320]: MY POSITIONS
+        - generic [ref=e321]:
+          - text: No open positions.
+          - text: Start trading!

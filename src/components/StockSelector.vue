@@ -88,7 +88,7 @@ function getRangeFillPct(symbol) {
 
 .sb-top-row {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr 78px;
   align-items: center;
   gap: 8px;
   width: 100%;
@@ -157,8 +157,8 @@ function getRangeFillPct(symbol) {
 .sb-change {
   font-size: 11px;
   font-weight: 700;
-  min-width: 54px;
   text-align: right;
+  overflow: hidden;
 }
 
 .up   { color: var(--blue); }
