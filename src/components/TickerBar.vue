@@ -10,7 +10,7 @@
         <span class="ticker-sym">{{ s.symbol }}</span>
         <span class="ticker-price mono">${{ fmt(s.price) }}</span>
         <span class="ticker-change mono">
-          <span class="tsign">{{ s.change >= 0 ? '+' : '−' }}</span>{{ Math.abs(s.changePct).toFixed(2) }}%
+          <span class="tsign">{{ s.change >= 0 ? '▲' : '▼' }}</span>{{ Math.abs(s.changePct).toFixed(2) }}%
         </span>
       </div>
     </div>

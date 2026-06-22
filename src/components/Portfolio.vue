@@ -32,6 +32,7 @@
             <th class="right">Value</th>
             <th class="right">P&amp;L</th>
             <th class="right">%</th>
+            <th class="right">Day %</th>
           </tr>
         </thead>
         <tbody>
@@ -46,6 +47,9 @@
             </td>
             <td class="right mono" :class="pnl(pos, sym) >= 0 ? 'up' : 'down'">
               {{ pnlPct(pos, sym) >= 0 ? '+' : '' }}{{ pnlPct(pos, sym).toFixed(2) }}%
+            </td>
+            <td class="right mono" :class="dayChangePct(sym) >= 0 ? 'up' : 'down'">
+              {{ dayChangePct(sym) >= 0 ? '+' : '' }}{{ dayChangePct(sym).toFixed(2) }}%
             </td>
           </tr>
         </tbody>
@@ -70,6 +74,14 @@ const STARTING_BALANCE = 10000
 function price(sym) { return useSymbol(sym).price.value }
 function pnl(pos, sym) { return (price(sym) - pos.avgPrice) * pos.qty }
 function pnlPct(pos, sym) { return ((price(sym) - pos.avgPrice) / pos.avgPrice) * 100 }
+
+function dayOpen(sym) {
+  return useSymbol(sym).candles.value[0]?.open ?? price(sym)
+}
+function dayChangePct(sym) {
+  const o = dayOpen(sym)
+  return o === 0 ? 0 : ((price(sym) - o) / o) * 100
+}
 
 const totalPnl    = computed(() => store.totalValue - STARTING_BALANCE)
 const totalPnlPct = computed(() => (totalPnl.value / STARTING_BALANCE) * 100)

@@ -7,7 +7,14 @@
         <span class="brand-name">Tour De <span class="brand-accent">Stonks</span></span>
       </div>
       <TickerBar />
-      <div class="brand-time mono">{{ clock }}</div>
+      <div class="header-right">
+        <span class="paper-label">PAPER TRADING</span>
+        <span
+          class="badge"
+          :class="[marketStatus.cls, marketStatus.dot ? 'dot-pulse' : '']"
+        >{{ marketStatus.label }}</span>
+        <div class="brand-time mono">{{ clock }}</div>
+      </div>
     </header>
 
     <!-- ── Main Layout ─────────────────────────────────────────────────── -->
@@ -49,6 +56,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+
 import TickerBar        from './components/TickerBar.vue'
 import StockSelector    from './components/StockSelector.vue'
 import CandlestickChart from './components/CandlestickChart.vue'
@@ -62,8 +70,48 @@ const selectedSymbol = ref('NVDA')
 
 const clock = ref('')
 let clockId
+
+// ─── Market Status ─────────────────────────────────────────────────────────────
+const marketStatus = ref({ label: 'CLOSED', cls: 'badge-closed', dot: false })
+
+function computeMarketStatus() {
+  const now = new Date()
+  const fmt = (part) => new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York', [part]: part === 'weekday' ? 'long' : '2-digit',
+  }).format(now)
+
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false,
+  }).formatToParts(now)
+
+  const wd   = parts.find(p => p.type === 'weekday')?.value   // 'Mon', 'Sat', etc.
+  const h    = parseInt(parts.find(p => p.type === 'hour')?.value   ?? '0', 10)
+  const m    = parseInt(parts.find(p => p.type === 'minute')?.value ?? '0', 10)
+  const mins = h * 60 + m
+
+  const isWeekend = wd === 'Sat' || wd === 'Sun'
+  const OPEN       = 9 * 60 + 30
+  const CLOSE      = 16 * 60
+  const PRE_START  = 4 * 60
+  const AFTER_END  = 20 * 60
+
+  if (isWeekend) {
+    marketStatus.value = { label: 'CLOSED', cls: 'badge-closed', dot: false }
+  } else if (mins >= OPEN && mins < CLOSE) {
+    marketStatus.value = { label: '● OPEN', cls: 'badge-market', dot: true }
+  } else if (mins >= PRE_START && mins < OPEN) {
+    marketStatus.value = { label: 'PRE-MARKET', cls: 'badge-pre', dot: false }
+  } else if (mins >= CLOSE && mins < AFTER_END) {
+    marketStatus.value = { label: 'AFTER-HOURS', cls: 'badge-after', dot: false }
+  } else {
+    marketStatus.value = { label: 'CLOSED', cls: 'badge-closed', dot: false }
+  }
+}
+
 function updateClock() {
   clock.value = new Date().toLocaleTimeString('en-US', { hour12: false })
+  computeMarketStatus()
 }
 onMounted(()   => { updateClock(); clockId = setInterval(updateClock, 1000) })
 onUnmounted(() => clearInterval(clockId))
@@ -81,7 +129,7 @@ onUnmounted(() => clearInterval(clockId))
 /* ── Header ──────────────────────────────────────────────────────────── */
 .app-header {
   display: grid;
-  grid-template-columns: 160px 1fr 100px;
+  grid-template-columns: 160px 1fr auto;
   align-items: center;
   height: 38px;
   border-bottom: 1px solid var(--border);
@@ -99,10 +147,28 @@ onUnmounted(() => clearInterval(clockId))
 .brand-name { font-size: 15px; font-weight: 800; letter-spacing: 1.5px; }
 .brand-accent { color: #EF8A17; }
 
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border-left: 1px solid var(--border);
+  height: 100%;
+  white-space: nowrap;
+}
+
+.paper-label {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  opacity: 0.55;
+}
+
 .brand-time {
-  font-size: 12px; font-weight: 600; color: var(--text-muted);
-  padding: 0 16px; border-left: 1px solid var(--border);
-  height: 100%; display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 
 /* ── Body ─────────────────────────────────────────────────────────────── */
