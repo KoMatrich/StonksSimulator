@@ -19,6 +19,7 @@
   --radius-sm:  6px;
   --font:       'Dosis', system-ui, sans-serif;
   --transition: 0.18s ease;
+  --panel-grad: linear-gradient(180deg, #131313 0%, #0f0f0f 100%);
 }
 
 /* ─── Reset ──────────────────────────────────────────────────────────────── */
@@ -46,7 +47,7 @@ body {
 
 /* ─── Glass card ─────────────────────────────────────────────────────────── */
 .card {
-  background: var(--panel);
+  background: var(--panel-grad);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
@@ -70,7 +71,8 @@ body {
   user-select: none;
 }
 
-.btn:active { transform: scale(0.96); }
+.btn:hover  { transform: translateY(-1px); }
+.btn:active { transform: scale(0.96) translateY(0); }
 
 .btn-buy {
   background: var(--blue);
@@ -149,3 +151,27 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
 .toast-item.sell { background: var(--red);  color: #fff; }
 .toast-item.error{ background: var(--surface); border:1px solid var(--red); color: var(--red); }
 .toast-item.exit { animation: fadeOut 0.4s ease forwards; }
+
+/* ─── Badge utility ──────────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+.badge-market  { background: rgba(0,200,150,0.15);  color: var(--green);   border: 1px solid rgba(0,200,150,0.3); }
+.badge-pre     { background: rgba(239,138,23,0.15); color: #EF8A17;        border: 1px solid rgba(239,138,23,0.3); }
+.badge-after   { background: rgba(114,68,121,0.20); color: var(--purple);  border: 1px solid rgba(114,68,121,0.35); }
+.badge-closed  { background: rgba(227,24,55,0.12);  color: var(--red);     border: 1px solid rgba(227,24,55,0.25); }
+.badge-neutral { background: var(--surface);        color: var(--text-muted); border: 1px solid var(--border); }
+
+/* ─── Market status pulse dot ────────────────────────────────────────────────── */
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.dot-pulse { animation: pulse 1.8s ease-in-out infinite; }
+
+/* ─── Glow helper ────────────────────────────────────────────────────────────── */
+.glow-blue { box-shadow: 0 0 0 1px rgba(0,112,187,0.3), 0 4px 20px rgba(0,112,187,0.08); }

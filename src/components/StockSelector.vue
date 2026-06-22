@@ -7,10 +7,18 @@
       :class="{ active: s.symbol === modelValue }"
       @click="$emit('update:modelValue', s.symbol)"
     >
-      <div class="sb-sym">{{ s.symbol }}</div>
-      <div class="sb-price mono">${{ fmt(useSymbol(s.symbol).price.value) }}</div>
-      <div class="sb-change mono" :class="getDir(s.symbol)">
-        {{ getChangePct(s.symbol) }}
+      <div class="sb-top-row">
+        <div class="sb-sym">{{ s.symbol }}</div>
+        <div class="sb-price mono">${{ fmt(useSymbol(s.symbol).price.value) }}</div>
+        <div class="sb-change mono" :class="getDir(s.symbol)">
+          {{ getChangePct(s.symbol) }}
+        </div>
+      </div>
+      <div class="sb-range-bar-wrap">
+        <div class="sb-range-track">
+          <div class="sb-range-fill" :style="{ width: getRangeFillPct(s.symbol) + '%' }"></div>
+          <div class="sb-range-dot" :style="{ left: getRangeFillPct(s.symbol) + '%' }" :class="getDir(s.symbol)"></div>
+        </div>
       </div>
     </button>
   </div>
@@ -42,6 +50,17 @@ function getDir(symbol) {
   const o = getOpen(symbol)
   return p >= o ? 'up' : 'down'
 }
+
+function getRangeFillPct(symbol) {
+  const { candles, live } = useSymbol(symbol)
+  const all = live.value ? [...candles.value, live.value] : [...candles.value]
+  if (all.length === 0) return 50
+  const low  = all.reduce((m, c) => Math.min(m, c.low),  Infinity)
+  const high = all.reduce((m, c) => Math.max(m, c.high), -Infinity)
+  if (high === low) return 50
+  const price = useSymbol(symbol).price.value
+  return Math.max(0, Math.min(100, ((price - low) / (high - low)) * 100))
+}
 </script>
 
 <style scoped>
@@ -52,10 +71,9 @@ function getDir(symbol) {
 }
 
 .stock-btn {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   width: 100%;
   padding: 10px 14px;
   background: var(--surface);
@@ -67,6 +85,48 @@ function getDir(symbol) {
   transition: all var(--transition);
   text-align: left;
 }
+
+.sb-top-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.sb-range-bar-wrap { width: 100%; }
+
+.sb-range-track {
+  position: relative;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  width: 100%;
+}
+
+.sb-range-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--text-muted);
+  border-radius: 2px;
+  opacity: 0.4;
+  transition: width 0.4s ease;
+}
+
+.sb-range-dot {
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--blue);
+  transition: left 0.4s ease;
+  z-index: 1;
+}
+.sb-range-dot.down { background: var(--red); }
 
 .stock-btn:hover {
   border-color: var(--blue-dark);

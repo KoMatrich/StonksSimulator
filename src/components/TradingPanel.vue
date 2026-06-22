@@ -17,10 +17,27 @@
       </div>
     </div>
 
+    <!-- Bid / Ask -->
+    <div class="tp-bidask mono">
+      <span class="tp-ba-item">
+        <span class="muted">Bid</span>
+        <span class="down">${{ bid }}</span>
+      </span>
+      <span class="tp-ba-sep">·</span>
+      <span class="tp-ba-item">
+        <span class="muted">Ask</span>
+        <span class="up">${{ ask }}</span>
+      </span>
+      <span class="tp-ba-spread muted">{{ spread }}</span>
+    </div>
+
     <div class="tp-divider"></div>
 
     <!-- Order Entry -->
-    <div class="tp-section-label">PLACE ORDER</div>
+    <div class="tp-order-header">
+      <div class="tp-section-label">PLACE ORDER</div>
+      <span class="badge badge-neutral">MARKET</span>
+    </div>
 
     <div class="tp-row">
       <label class="tp-label">Quantity</label>
@@ -36,6 +53,11 @@
     <div class="tp-row">
       <label class="tp-label">Est. Total</label>
       <div class="tp-est mono">${{ fmtPrice(qty * livePrice) }}</div>
+    </div>
+
+    <div class="tp-info-row">
+      <span class="muted">Commission</span>
+      <span class="mono up">$0.00</span>
     </div>
 
     <!-- Buttons -->
@@ -94,6 +116,13 @@ const openPrice = computed(() => useSymbol(props.symbol).candles.value[0]?.open 
 const changeAbs = computed(() => livePrice.value - openPrice.value)
 const changePct = computed(() => (changeAbs.value / openPrice.value) * 100)
 const changeDir = computed(() => changeAbs.value >= 0 ? 'up' : 'down')
+
+const bid    = computed(() => (livePrice.value * 0.9998).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
+const ask    = computed(() => (livePrice.value * 1.0002).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
+const spread = computed(() => {
+  const s = livePrice.value * 0.0004
+  return '$' + s.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' spread'
+})
 
 // ── Fixed-width formatters (prevent layout jumps) ─────────────────────────────
 function fmtFixed(v, decimals) {
@@ -176,5 +205,26 @@ function doSell() { if (qty.value > 0) store.sell(props.symbol, qty.value, liveP
 .tp-info-row {
   display: flex; justify-content: space-between;
   align-items: center; font-size: 12px; font-weight: 600;
+}
+
+.tp-bidask {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 5px 10px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.tp-ba-item  { display: flex; gap: 5px; align-items: center; }
+.tp-ba-sep   { color: var(--border); }
+.tp-ba-spread { margin-left: auto; font-size: 10px; }
+
+.tp-order-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 </style>
